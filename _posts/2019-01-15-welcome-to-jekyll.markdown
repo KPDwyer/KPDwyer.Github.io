@@ -10,4 +10,6 @@ While Unity has certainly built out some great 2D tools for pixel art (Pixel Per
 
 I've started to work through this problem - So far, I'm generating Animation Clips from the project folder: with the included gist, simply select a group of sprites, right-click and select `Generate Animation.`  The ideal workflow involves generating an AnimatorController in some root folder, as well as clips in each sub folder based on alphanumerically sorted sprites.  I'll update as I go.
 
+Note:  Lots of assumptions in this code - it isn't written as a catch-all solution, merely a solution to my struggles in this domain.  Lots of hardcoded values (samplerate is 12, everything loops, Animators are bound to a sprite named MainSprite, etc), but these are tweakable and should provide insight to those doing something similar.
+
 <script src="https://gist.github.com/KPDwyer/136eed21b6c21bcda9436df2c4447a6d.js"></script>
