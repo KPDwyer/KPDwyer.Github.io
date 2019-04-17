@@ -19,7 +19,7 @@ categories: Unity
 # Overview + Quick Start
 I made some tools to reduce the friction of importing AutoTile assets into Unity.  If the art is made in a specific format (in this case RPGMaker's A2 sheet), using one of these tools will remove all or most of the user interaction required to make a RuleTile for use in your game.
 
-The easiest starting point is ![Implementation 1](), so if all you want is what I've described, check out the github README for basic usage. 
+The easiest starting point is ![Implementation 1](), so if all you want is what I've described, check out the github README for basic usage.
 
 However, if you find that Implementation 1 generates a bit too many textures for your liking, take a look at [Implementation 2](), which perhaps requires a bit more effort to setup + use, but won't generate any textures beyond the source asset.
 
@@ -153,8 +153,10 @@ I'd assume its possible to generate a single Sprite that contains a mesh, split 
 ## Custom Mesh
 This seems doable: Unity's Sprite documentation shows a function called `OverrideGeometry(Vector2[] vertices, ushort[] triangles)`, which should allow us to set up the mesh as we need. However, a line in ![The documentation]() scared me: `Sprite UV's are calculated automatically by mapping the provided geometry onto the sprite texture.`
 
+![ScriptableObject Interface](/assets/autotile/16_impossible.png)
+
 ## Custom UVs
 I hoped that those auto-generated UVs could be overridden somewhere, but it seems that they can't.  Without custom UVs on the Sprites custom geometry, this idea is sort of a dead end.
 
 # In Closing
-I'm not super jazzed about any of this, really.  It really seems like we should be able to feed our own UVs into a Sprite's mesh to maually sample from atlas in a more flexible way, but here we are:  2 solutions for rapid AutoTile generation in Unity.  One favours simplicity, and one favours texture memory.  Thanks for reading!
+I'm not super jazzed about any of this, really.  It really seems like we should be able to feed our own UVs into a Sprite's mesh to manually sample from atlas in a more flexible way, but here we are:  2 solutions for rapid AutoTile generation in Unity.  One favors simplicity, and one favors texture memory.  Thanks for reading!
