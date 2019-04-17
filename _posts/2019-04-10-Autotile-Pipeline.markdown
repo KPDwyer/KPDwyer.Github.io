@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "RPGMaker Autotile Asset Pipeline in Unity 1"
+title:  "RPGMaker Autotile Asset Pipeline in Unity"
 date:   2019-04-10 19:00:15 -0500
 categories: Unity
 ---
@@ -57,7 +57,7 @@ Keen readers may have already perceived 6 tiles total on the A2 sheet, yet the A
 
 ![A Nefarious Tile](/assets/autotile/04_MysteryTile.png)
 
-The highlighted tile doesn't actually exist in the base atlas! Now, I don't know the implementation details of how RPGMaker actually performs this, but my mental model suggests that while the UX + Source asset of RPGMaker suggest these tiles are 32x32, the tiling engine actually paints them as 16x16 tiles - each full-sized tile is actually 4 subtiles.  I refer to these with cardinal shorthand - NW,NE,SW,SE.  
+The highlighted tile doesn't actually exist in the base atlas! Now, I don't know the implementation details of how RPGMaker actually performs this, but my mental model suggests that while the UX + Source asset of RPGMaker treats these tiles as 32x32, the tiling engine actually paints them as 16x16 tiles - each full-sized tile is actually 4 subtiles.  I refer to these with cardinal shorthand - NW,NE,SW,SE.  
 
 ![A TileQuad](/assets/autotile/05_TileQuads.png)
 
