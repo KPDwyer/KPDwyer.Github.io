@@ -5,13 +5,9 @@ date:   2019-04-10 19:00:15 -0500
 categories: Unity
 ---
 
-//TODO -> Pictures
 //TODO -> Github Repos
 //TODO -> Links
 //	- each of my repos
-//	- The 2d-extras repo
-//  - angryfish
-//	- gamedevtuts+
 
 * stuff
 {:toc}
@@ -39,13 +35,13 @@ My goal was to familiarize myself with the Tilemap pipeline by making it as low-
 # Obstacles
 
 ## Obstacle 1: 2D-Extras
-Unity introduced its 2D Tilemap system some time ago, and it comes with very customizable tiles and brushes.  It's a great system, but it doesn't come with everything out of the box - you have to find their `2D-extras` repository on GitHub [link here] to really dig in to the common use cases for the flexibility it provides.  This is a pain, as it seems like most of the demos of this system I've seen have centered around the RuleTile, which isn't even in the core feature set. Odd.
+Unity introduced its 2D Tilemap system some time ago, and it comes with very customizable tiles and brushes.  It's a great system, but it doesn't come with everything out of the box - you have to find their `2D-extras` [repository on GitHub](https://github.com/Unity-Technologies/2d-extras) to really dig in to the common use cases for the flexibility it provides.  This is a pain, as it seems like most of the demos of this system I've seen have centered around the RuleTile, which isn't even in the core feature set. Odd.
 
 ## Obstacle 2: RuleTile's Interface
 
 ![Vanilla RuleTile inspector](/assets/autotile/02_RuleTile_Inspector.png)
 
-This is the obstacle I expected to find.  Based on previous reading, I knew that to use Unity's RuleTile meant to use their custom inspector.  While the inspector is very pretty, manually creating each rule takes an unreasonable amount of time - there are 256 possible combinations with 2 states in 8 directions.  That assumes we are using 2 states (we are!) but Unity throws a curve ball by adding a "don't care" state on top! The total possible permutations rises to 6561.  We only care about 2 states, but even 256 permutations is too many:  RPGMaker's AutoTiler only actually cares about 48 of these permutations.  If you're interested in reading further about how AutoTiling works, check out these links: ![angry fish link] ![gamedevtutsplus link].  There is a lot of literature on the bit masking involved in AutoTiling, but this exercise pertains specifically to replicating RPGMaker's functionality in Unity.
+This is the obstacle I expected to find.  Based on previous reading, I knew that to use Unity's RuleTile meant to use their custom inspector.  While the inspector is very pretty, manually creating each rule takes an unreasonable amount of time - there are 256 possible combinations with 2 states in 8 directions.  That assumes we are using 2 states (we are!) but Unity throws a curve ball by adding a "don't care" state on top! The total possible permutations rises to 6561.  We only care about 2 states, but even 256 permutations is too many:  RPGMaker's AutoTiler only actually cares about 48 of these permutations.  If you're interested in reading further about how AutoTiling works, check out these links: [Adventures in Bitmasking](http://www.angryfishstudios.com/2011/04/adventures-in-bitmasking/)  and [How to Use Tile Bitmasking to Auto Tile Your Level Layouts](https://gamedevelopment.tutsplus.com/tutorials/how-to-use-tile-bitmasking-to-auto-tile-your-level-layouts--cms-25673).  There is a lot of literature on the bit masking involved in AutoTiling, but this exercise pertains specifically to replicating RPGMaker's functionality in Unity.
 
 Once those rules are set, we need to assign a sprite to each rule. That means having a folder of several sprites, and manually dragging them to the Sprite Field on the inspector.  This is a lot of friction between `finishing the art` and `being able to paint tiles with the art`, and it must be done for each unique Tileset.  The crux of this exercise was, given a known Tileset layout, remove all of the friction of turning a Tileset into a RuleTile.
 
@@ -133,25 +129,27 @@ This is the same as Implementation 1.  First of all, you'll notice this operatio
 ![ScriptableObject Interface](/assets/autotile/11_ScriptableAsset.png)
 
 ### Setup
-there's a minor bit of friction when setting up
-- Your Tilemap needs to have half-scale tiles
-- your should have each RuleTile take up four spots in the TilePalette (for visual niceness)
+there's a minor bit of friction when setting up, your Tilemap needs to have half-scale tiles - so if you're pixel-per-unity is 32 and your tiles are 32, then you'll need your Grid Component's cell size to be 0.5.
 
 ### Painting the AutoTile
-This does add some operational friction to the act of actually painting with the RuleTile.  Namely, you'll be able to paint a quarter, half or three-quarter fractional tile that will look terrible.  Since the Tilemap is at subtile resolution, painting is as well.  Also, even when painting with full tiles, you need to make sure you are not painting offset to the global modulo grid.  That is too say, if you are trying to place a NW or SW tile at an odd global grid index, it will try to paint the NE or SE variant of that tile's current rule.  While this operational friction is not ideal, I believe its worth it to save texture memory, depending on the resolution or quantity of your Tilemaps.
+Initially, This adds some operational friction to the act of actually painting with the RuleTile.  Namely, you'd be able to paint a quarter, half or three-quarter fractional tile that will look terrible, as its meant to be painted alongside its entire tile.  Since the Tilemap is at subtile resolution, painting is at subtile resolution as well.  Also, even when painting with full tiles, you need to make sure you are not painting offset to the global modulo grid.  That is too say, if you are trying to place a NW or SW tile at an odd global grid index, it will try to paint the NE or SE variant of that tile's current rule. See the gif below for some of the problem one might run into.
 
 ![Subtiles](/assets/autotile/15_PaintingSubtiles.gif)
 
-But what if we could paint at the perceived tile resolution like our full-sized implementation, while sampling from the source texture.  The best of both worlds is surely possible...
+Luckily, Unity's Tilemaps also let you write custom brushes, so it's minimal work to write a brush that forces the tiles you paint to adhere to the modulo grid as if you were painting fullscale tiles rather than subtiles.
+
+![Painting Modulo](/assets/autotile/15_PaintingModulo.gif)
+
+Having the tilemap at half res has runtime concerns though, especially for games with things like destructable terrain.  The other flaw here is that using the modulo brush means you can't use other types of brushes (unless you make a modulo version...).  Likewise for the RuleTile's Modulo SpriteOutput, which prevents you from painting with `Random` or `Animated` Tiles (Again, unless you write a modulo variant of these).
+
+I thought I had this problems solved as well...
 
 # Failed Attempt: The Impossible Dream
 ## Target Output
 I'd assume its possible to generate a single Sprite that contains a mesh, split into four quads, that each sample from the source texture as necessary - this way we can paint at full-size resolution without generating a ton of texture bloat. We know that Unity's Sprite's support some level of custom mesh, because you can edit it in the editor,  So I thought this would be the ideal solution.
 
-
-
 ## Custom Mesh
-This seems doable: Unity's Sprite documentation shows a function called `OverrideGeometry(Vector2[] vertices, ushort[] triangles)`, which should allow us to set up the mesh as we need. However, a line in ![The documentation]() scared me: `Sprite UV's are calculated automatically by mapping the provided geometry onto the sprite texture.`
+This seems doable: Unity's Sprite documentation shows a function called `OverrideGeometry(Vector2[] vertices, ushort[] triangles)`, which should allow us to set up the mesh as we need. However, a line in [The Documentation](https://docs.unity3d.com/ScriptReference/Sprite.OverrideGeometry.html) scared me: `Sprite UV's are calculated automatically by mapping the provided geometry onto the sprite texture.`
 
 ![ScriptableObject Interface](/assets/autotile/16_impossible.png)
 
