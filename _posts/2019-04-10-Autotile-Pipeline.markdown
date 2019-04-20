@@ -134,11 +134,11 @@ Initially, This adds some operational friction to the act of actually painting w
 
 Luckily, Unity's Tilemaps also let you write custom brushes, so it's minimal work to write a brush that forces the tiles you paint to adhere to the modulo grid as if you were painting fullscale tiles rather than subtiles.
 
-![Painting Modulo](/assets/autotile/15_PaintingModulo.gif)
+![Painting Modulo](/assets/autotile/17_PaintingModulo.gif)
 
 Having the tilemap at half res has runtime concerns though, especially for games with things like destructable terrain.  The other flaw here is that using the modulo brush means you can't use other types of brushes (unless you make a modulo version...).  Likewise for the RuleTile's Modulo SpriteOutput, which prevents you from painting with `Random` or `Animated` Tiles (Again, unless you write a modulo variant of these).
 
-I thought I had this problems solved as well...
+I thought I had these problems solved as well, but Unity's `Sprite` implementation lacks a critical feature.
 
 # Failed Attempt: The Impossible Dream
 ## Target Output
