@@ -163,4 +163,4 @@ This seems doable: Unity's Sprite documentation shows a function called `Overrid
 I had hoped that those auto-generated UVs could be overridden somewhere, but it seems that they can't.  Without custom UVs on the Sprites custom geometry, this idea is sort of a dead end.
 
 # In Closing
-I'm not super jazzed about any of this, really.  It seems like we should be able to feed our own UVs into a Sprite's mesh to manually sample from the atlas in a more flexible way, but here we are:  2 solutions for rapid AutoTile generation in Unity.  One favors simplicity, and one favors texture memory.  Thanks for reading!
+I'm not super jazzed about any of this, really.  It seems like we should be able to feed our own UVs into a Sprite's mesh to manually sample from the atlas in a more flexible way, but here we are:  2 solutions for rapid AutoTile generation in Unity.  One favors simplicity, and one favors texture memory.  Thanks for reading!  Thanks [Mack](https://twitter.com/Macktimus), for proofreading + editing!
