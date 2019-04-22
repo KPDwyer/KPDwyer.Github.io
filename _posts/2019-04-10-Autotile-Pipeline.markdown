@@ -67,7 +67,7 @@ I knew early on I'd have to manually assign the quads to each rule, as there are
 
 I also discovered that the tiling edges matter: in the first tile set shown above, there is no discernible difference between Subtiles 9,10,5 & 6.  however if you simply cut the four of them out of the set and used them like that, it would be fail to adhere to the tiling edges.  In the case of this example, the carpet may line up, but the flagstones in the other set would fail to align correctly.  
 
-![Subtile edges](assets\autotile\17_subtilecoords.png)
+![Subtile edges](/assets/autotile/17_subtilecoords.png)
 
 Subtiles 5 & 6 should be at the Top Right and Top Left respectively of any tile they are a part of, and the same goes for 9 & 10 on the bottom Right and Bottom Left respectively.  If we are listing them clockwise from the NW, `[9,10,5,6]` should actually be rendered as `[6,5,10,9]`. The blue lines help visualize the outward facing edges of each subtile.
 
