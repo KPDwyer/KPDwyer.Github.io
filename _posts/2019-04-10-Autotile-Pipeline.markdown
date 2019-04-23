@@ -65,7 +65,7 @@ I knew early on I'd have to manually assign the quads to each rule, as there are
 
 ![SubTile Indices + TilingEdges](/assets/autotile/07_Tiling.png)
 
-I also discovered that the tiling edges matter: in the first tile set shown above, there is no discernible difference between Subtiles 9,10,5 & 6.  however if you simply cut the four of them out of the set and used them like that, it would be fail to adhere to the tiling edges.  In the case of this example, the carpet may line up, but the flagstones in the other set would fail to align correctly.  
+I also discovered that the tiling edges matter: in the first tile set shown above, there is no discernible difference between Subtiles 9,10,5 & 6.  However if you simply cut the four of them out of the set and used them like that, it would be fail to adhere to the tiling edges.  In the case of this example, the carpet may line up, but the flagstones in the other set would fail to align correctly.  
 
 ![Subtile edges](/assets/autotile/17_subtilecoords.png)
 
