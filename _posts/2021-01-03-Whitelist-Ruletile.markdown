@@ -12,7 +12,7 @@ While my post on Autotiling covers the generation of these Ruletiles from editor
 
 most tiles you'll use (especially if you come from an RPG Maker workflow) Look something like this:
 
-<img src="https://kpdwyer.github.io/assets/WhiteList/Clay.png" alt="Clay Autotile" style="zoom:200%;" /><img src="https://kpdwyer.github.io/assets/WhiteList/ShallowWater.png" alt="Shallow Water Autotile" style="zoom:200%;" />
+<img src="https://kpdwyer.github.io/assets/WhiteList/Clay.png" alt="Clay Autotile" style="zoom:200%;" />
 
 These are very simple Autotiles - the clay tileset has shallow water at its edge, and the shallow water tileset has deep water at its edge. If we consider a case where these ruletiles are set up in the default manner, the boundary between these two tiles would appear as such:
 
