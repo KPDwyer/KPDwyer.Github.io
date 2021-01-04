@@ -11,10 +11,11 @@ While my post on Autotiling covers the generation of these Ruletiles from editor
 ** Ruletiles are simply not smart enough **
 
 most tiles you'll use (especially if you come from an RPG Maker workflow) Look something like this:
-![Clay Autotile](/assets/WhiteList/Clay.png)
-![Shallow Water Autotile](/assets/WhiteList/ShallowWater.png)
+
+<img src="https://kpdwyer.github.io/assets/WhiteList/Clay.png" alt="Clay Autotile" style="zoom:200%;" /><img src="https://kpdwyer.github.io/assets/WhiteList/ShallowWater.png" alt="Shallow Water Autotile" style="zoom:200%;" />
 
 These are very simple Autotiles - the clay tileset has shallow water at its edge, and the shallow water tileset has deep water at its edge. If we consider a case where these ruletiles are set up in the default manner, the boundary between these two tiles would appear as such:
+
 ![bad boundaries](/assets/WhiteList/clayandshallow.png)
 
 This is because the RuleTile implementation has a very minimalist set of constraints: each Rule can check if a neighbour is The Same, Not The Same, or Don't Care.  In this case, we could layer multiple tilemaps and have each one support its own RuleTile, but in many cases thats not an ideal implementation.  The ideal Implementation is to add a tiny bit of complexity to the RuleTile, rather than a lot of complexity elsewhere.
@@ -22,6 +23,7 @@ This is because the RuleTile implementation has a very minimalist set of constra
 Some solutions pointed online involve adding an enum to every tile to "group" tiles together.  So rather than the 3 basic constraint types (this, not this, and don't care),  Developers would implement their own groups, such as Caves, Sand, Grass, etc.  this is fine if all your tiles are using the same TileBase subclass, but often users need to mix and match basic tiles, RuleTiles, custom tiles, and more.  The grouping implementations I've seen involve every tile knowing its grouping (even if only a couple of RuleTiles actually *need* that information from the tile).
 
 Rather, I chose to implement a simple WhitelistRuleTile.  This is a RuleTile with a `List<TileBase>` that a user can populate to adjust whether the Ruletile thinks a tile is in the "This" group or not.  Here's the output with our tiles from above:
+
 ![good boundaries](/assets/WhiteList/working.png)
 
 As you can see, the shallow water tile no longer renders its edges against the clay boundary, allowing the art to work as its intended.  The bonus?  Since we use `TileBase` rather than any bespoke enums, we can use any type of Tile, and the Tile getting checked doesn't need any special logic at all - the data that drives the unique aspect of this tile remains local to this tile.
